@@ -1,2 +1,4 @@
 # PatternLockView
-手势解锁(仿QQ版)
+手势解锁
+
+![PatternLock](PatternLock.gif)
