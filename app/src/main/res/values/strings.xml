@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">PatternLock</string>
+    <string name="action_settings">Settings</string>
+    <string name="error_size_not_satisfied">密码太短，请连接至少%s个点。</string>
+</resources>

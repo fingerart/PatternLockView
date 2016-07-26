@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context=".MainActivity">
+
+    <me.fingerart.patternlock.view.PatternLockView
+        android:id="@+id/pattern_lock"
+        android:layout_width="280dp"
+        android:layout_height="280dp"
+        android:layout_centerInParent="true"
+        app:auto_clear="true" />
+
+    <TextView
+        android:id="@+id/tv_tips"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/pattern_lock"
+        android:layout_centerHorizontal="true"
+        android:text="绘制解锁图案"
+        android:textSize="16sp" />
+
+    <me.fingerart.patternlock.view.PatternLockIndicator
+        android:id="@+id/pattern_lock_indicator"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_above="@+id/tv_tips"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dp"
+        app:ring_default="@android:color/white"
+        app:ring_inner_radius="5dp"
+        app:ring_outer_radius="5dp"
+        app:ring_pressed="@android:color/transparent" />
+</RelativeLayout>

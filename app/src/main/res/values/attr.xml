@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="PatternLockView">
+        <attr name="ring_outer_radius" format="dimension" />
+        <attr name="ring_inner_radius" format="dimension" />
+        <attr name="ring_border" format="dimension" />
+        <attr name="ring_default" format="color" />
+        <attr name="ring_pressed" format="color" />
+        <attr name="ring_error" format="color" />
+        <attr name="line_width" format="dimension" />
+        <attr name="line_default" format="color" />
+        <attr name="line_error" format="color" />
+        <attr name="circular_error" format="color" />
+        <attr name="circular_pressed" format="color" />
+        <attr name="vibrate_long" format="float" />
+        <attr name="min_size" format="integer" />
+        <attr name="auto_clear" format="boolean" />
+        <attr name="raw" format="integer" />
+    </declare-styleable>
+</resources>

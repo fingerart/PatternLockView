@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="line_default">#00a0e5</color>
+    <color name="line_error">#f7564a</color>
+    <color name="ring_default">#818181</color>
+    <color name="ring_pressed">#7d00a0e5</color>
+    <color name="ring_error">#7df7564a</color>
+    <color name="circular_error">#5af7564a</color>
+    <color name="circular_pressed">#5a00a0e5</color>
+</resources>
