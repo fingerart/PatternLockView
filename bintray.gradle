@@ -1,6 +1,6 @@
 def PROJ_GROUP = 'me.fingerart.android'
 def PROJ_ARTIFACTID = 'patternLockView'
-def PROJ_VERSION = '1.0.0'
+def PROJ_VERSION = '1.1.0'
 def DEVELOPER_ID = 'fingerart'
 def DEVELOPER_NAME = 'FingerArt'
 def DEVELOPER_EMAIL = 'fingerart.me@gmail.com'
