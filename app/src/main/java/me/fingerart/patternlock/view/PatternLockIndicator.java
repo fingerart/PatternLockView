@@ -1,14 +1,11 @@
 package me.fingerart.patternlock.view;
 
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import me.fingerart.patternlock.R;
 import me.fingerart.patternlock.interf.PatternLockIndicatorInterf;
 
 /**
@@ -34,10 +31,10 @@ public class PatternLockIndicator extends PatternLockView implements PatternLock
     }
 
     @Override
-    public void setIndicator(List<Integer> p) {
+    public void updateIndicator(List<Integer> index) {
         for (int y = 0; y < mPoints.length; y++) {
             for (int x = 0; x < mPoints[y].length; x++) {
-                if (p.contains(y * mRaw + x)) {
+                if (index.contains(y * mRaw + x)) {
                     mPoints[y][x].setState(PointState.POINT_STATE_SELECTED);
                 } else {
                     mPoints[y][x].setState(PointState.POINT_STATE_NORMAL);

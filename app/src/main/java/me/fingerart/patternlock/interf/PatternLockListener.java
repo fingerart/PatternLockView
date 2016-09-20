@@ -16,8 +16,7 @@ public interface PatternLockListener {
     /**
      * 绘制手势成功
      *
-     * @param p
-     * @param i
+     * @param index 指示点
      */
-    void onSuccess(String p, List<Integer> i);
+    void onSuccess(List<Integer> index);
 }
