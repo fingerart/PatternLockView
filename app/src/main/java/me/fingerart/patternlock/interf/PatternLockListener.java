@@ -6,6 +6,7 @@ import java.util.List;
  * Created by FingerArt.me on 2016/7/25.
  */
 public interface PatternLockListener {
+
     /**
      * 绘制手势错误
      *
