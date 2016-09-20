@@ -27,6 +27,7 @@ public class PatternLockView extends View {
     private int mWidth;
     protected Point[][] mPoints;
     protected ArrayList<Point> mLinePoints = new ArrayList<>();
+    List<Integer> mIndex = new ArrayList<>();
     private float ex, ey;
     protected float mLineWidth;
     protected float mRingOuterRadius;
@@ -136,17 +137,12 @@ public class PatternLockView extends View {
     }
 
     private void handleSuccess() {
-        StringBuffer s = new StringBuffer();
-        List<Integer> i = new ArrayList<>();
+        mIndex.clear();
         for (Point p : mLinePoints) {
-            s.append(p.getValue());
-            i.add(Integer.parseInt(p.getValue()));
-        }
-        if (mIndicator != null) {
-            mIndicator.setIndicator(i);
+            mIndex.add(Integer.parseInt(p.getValue()));
         }
         if (mLockListener != null) {
-            mLockListener.onSuccess(s.toString(), i);
+            mLockListener.onSuccess(mIndex);
         }
         if (mAutoClear) {
             delayedClearPatternLock();
@@ -228,7 +224,7 @@ public class PatternLockView extends View {
             float py = offsetY + (x + 1) * mWidth / mRaw - mWidth / mRaw / 2;
             for (int y = 0; y < mPoints[x].length; y++) {
                 float px = offsetX + (y + 1) * mHeight / mRaw - mHeight / mRaw / 2;
-                mPoints[x][y] = new Point(px, py, getPointPassword(x * mRaw + y));
+                mPoints[x][y] = new Point(px, py, generatePointPassword(x * mRaw + y));
             }
         }
 
@@ -318,7 +314,7 @@ public class PatternLockView extends View {
      * @param v
      * @return
      */
-    protected String getPointPassword(int v) {
+    protected String generatePointPassword(int v) {
         return v + "";
     }
 
@@ -347,5 +343,28 @@ public class PatternLockView extends View {
         mLinePoints.clear();
         switchState(null, PointState.POINT_STATE_NORMAL);
         postInvalidate();
+    }
+
+    /**
+     * 通知指示器改变手势点
+     */
+    public void notifyPatternChanged() {
+        if (mIndicator != null) {
+            mIndicator.updateIndicator(mIndex);
+        }
+    }
+
+    /**
+     * 改变指定数据的点
+     * 1 2 3
+     * 4 5 6
+     * 7 8 9
+     *
+     * @param index
+     */
+    public void notifyPatternData(List index) {
+        if (mIndicator != null) {
+            mIndicator.updateIndicator(index);
+        }
     }
 }

@@ -7,5 +7,5 @@ import java.util.List;
  * Created by FingerArt.me on 2016/7/26.
  */
 public interface PatternLockIndicatorInterf {
-    void setIndicator(List<Integer> p);
+    void updateIndicator(List<Integer> p);
 }

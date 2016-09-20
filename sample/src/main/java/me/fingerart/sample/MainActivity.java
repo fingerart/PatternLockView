@@ -1,10 +1,9 @@
 package me.fingerart.sample;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,7 +15,7 @@ import me.fingerart.patternlock.view.PatternLockView;
 
 public class MainActivity extends AppCompatActivity {
     private String password;
-    private PatternLockIndicator mPli;
+    private PatternLockView mPl;
     private TextView mTvTips;
 
     @Override
@@ -28,9 +27,10 @@ public class MainActivity extends AppCompatActivity {
 
     private void initView() {
         mTvTips = (TextView) findViewById(R.id.tv_tips);
-        PatternLockView pl = (PatternLockView) findViewById(R.id.pattern_lock);
-        mPli = (PatternLockIndicator) findViewById(R.id.pattern_lock_indicator);
-        pl.setPatternLockListener(mPatternLockListener);
+        mPl = (PatternLockView) findViewById(R.id.pattern_lock);
+        PatternLockIndicator mPli = (PatternLockIndicator) findViewById(R.id.pattern_lock_indicator);
+        mPl.setPatternLockIndicator(mPli);
+        mPl.setPatternLockListener(mPatternLockListener);
     }
 
     PatternLockListener mPatternLockListener = new PatternLockListener() {
@@ -40,13 +40,14 @@ public class MainActivity extends AppCompatActivity {
         }
 
         @Override
-        public void onSuccess(String p, List<Integer> i) {
-            if (TextUtils.isEmpty(password)) {
-                mPli.setIndicator(i);
-                password = p;
+        public void onSuccess(List<Integer> index) {
+            String p = generatePassword(index);
+            if (TextUtils.isEmpty(MainActivity.this.password)) {
+                mPl.notifyPatternChanged();
+                MainActivity.this.password = p;
                 mTvTips.setText("确认解锁图案");
             } else {
-                if (password.equals(p.toString())) {
+                if (MainActivity.this.password.equals(p)) {
                     Toast.makeText(MainActivity.this, "设置成功", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(MainActivity.this, "与上次绘制图案不一致", Toast.LENGTH_SHORT).show();
@@ -55,26 +56,12 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+    @Nullable
+    private String generatePassword(List<Integer> index) {
+        StringBuffer p = new StringBuffer();
+        for (Integer integer : index) {
+            p.append(integer);
         }
-
-        return super.onOptionsItemSelected(item);
+        return p.toString();
     }
-
 }
