@@ -30,8 +30,7 @@
         android:layout_above="@+id/tv_tips"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="10dp"
-        app:ring_default="@android:color/white"
+        app:ring_default="@android:color/transparent"
         app:ring_inner_radius="5dp"
-        app:ring_outer_radius="5dp"
-        app:ring_pressed="@android:color/transparent" />
+        app:ring_outer_radius="5dp" />
 </RelativeLayout>

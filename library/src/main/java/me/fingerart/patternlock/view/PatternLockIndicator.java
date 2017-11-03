@@ -32,12 +32,12 @@ public class PatternLockIndicator extends PatternLockView implements IPatternLoc
 
     @Override
     public void updateIndicator(List<Integer> index) {
-        for (int y = 0; y < mPoints.length; y++) {
-            for (int x = 0; x < mPoints[y].length; x++) {
+        for (int y = 0; y < mMatrixPoints.length; y++) {
+            for (int x = 0; x < mMatrixPoints[y].length; x++) {
                 if (index.contains(y * mRaw + x)) {
-                    mPoints[y][x].setState(PointState.POINT_STATE_SELECTED);
+                    mMatrixPoints[y][x].setState(PointState.POINT_STATE_SELECTED);
                 } else {
-                    mPoints[y][x].setState(PointState.POINT_STATE_NORMAL);
+                    mMatrixPoints[y][x].setState(PointState.POINT_STATE_NORMAL);
                 }
             }
         }

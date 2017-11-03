@@ -28,7 +28,13 @@ public class PatternLockView extends View {
     private static final String TAG = PatternLockView.class.getSimpleName();
     private int mHeight;
     private int mWidth;
-    protected Point[][] mPoints;
+    /**
+     * 所有的点
+     */
+    protected Point[][] mMatrixPoints;
+    /**
+     * 连线的点
+     */
     protected ArrayList<Point> mLinePoints = new ArrayList<>();
     List<Integer> mIndex = new ArrayList<>();
     private float ex, ey;
@@ -177,7 +183,7 @@ public class PatternLockView extends View {
      * @param to
      */
     private void switchState(PointState from, PointState to) {
-        for (Point[] py : mPoints) {
+        for (Point[] py : mMatrixPoints) {
             for (Point p : py) {
                 if (from == null || p.getState() == from) {
                     p.setState(to);
@@ -198,7 +204,7 @@ public class PatternLockView extends View {
      * @return
      */
     private Point getCurrentTouchPoint(float ex, float ey) {
-        for (Point[] px : mPoints) {
+        for (Point[] px : mMatrixPoints) {
             for (Point point : px) {
                 if (isInRound(point.getX(), point.getY(), mRingOuterRadius, ex, ey))
                     return point;
@@ -222,13 +228,13 @@ public class PatternLockView extends View {
             mHeight = mWidth;
         }
 
-        mPoints = new Point[mRaw][mRaw];
+        mMatrixPoints = new Point[mRaw][mRaw];
 
-        for (int x = 0; x < mPoints.length; x++) {
+        for (int x = 0; x < mMatrixPoints.length; x++) {
             float py = offsetY + (x + 1) * mWidth / mRaw - mWidth / mRaw / 2;
-            for (int y = 0; y < mPoints[x].length; y++) {
+            for (int y = 0; y < mMatrixPoints[x].length; y++) {
                 float px = offsetX + (y + 1) * mHeight / mRaw - mHeight / mRaw / 2;
-                mPoints[x][y] = new Point(px, py, generatePointPassword(x * mRaw + y));
+                mMatrixPoints[x][y] = new Point(px, py, generatePointPassword(x * mRaw + y));
             }
         }
 
@@ -255,9 +261,9 @@ public class PatternLockView extends View {
      * @param canvas
      */
     private void drawPoints(Canvas canvas) {
-        for (int x = 0; x < mPoints.length; x++) {
-            for (int y = 0; y < mPoints[x].length; y++) {
-                Point p = mPoints[x][y];
+        for (int x = 0; x < mMatrixPoints.length; x++) {
+            for (int y = 0; y < mMatrixPoints[x].length; y++) {
+                Point p = mMatrixPoints[x][y];
                 switch (p.getState()) {
                     case POINT_STATE_NORMAL:
                         mInnerPaint.setColor(Color.TRANSPARENT);
@@ -275,10 +281,10 @@ public class PatternLockView extends View {
                         break;
                 }
                 if (p.getState() != PointState.POINT_STATE_NORMAL) {
-                    canvas.drawCircle(p.getX(), p.getY(), mRingOuterRadius, mCircularPaint);
+                    canvas.drawCircle(p.getX(), p.getY(), mRingOuterRadius, mCircularPaint);//绘制最底层圆形
                 }
-                canvas.drawCircle(p.getX(), p.getY(), mRingOuterRadius, mOuterRingPaint);
-                canvas.drawCircle(p.getX(), p.getY(), mRingInnerRadius, mInnerPaint);
+                canvas.drawCircle(p.getX(), p.getY(), mRingOuterRadius, mOuterRingPaint);//外部圆环
+                canvas.drawCircle(p.getX(), p.getY(), mRingInnerRadius, mInnerPaint);//内部圆形
             }
         }
     }

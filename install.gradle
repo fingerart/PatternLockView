@@ -1,0 +1,47 @@
+apply plugin: 'maven-publish'
+
+group = PROJ_GROUP                               // Maven Group ID for the artifact
+
+def pomConfig = {
+    licenses {
+        license {
+            name PROJ_LICENSE_NAME
+            url PROJ_LICENSE_URL
+            distribution "repo"
+        }
+    }
+    developers {
+        developer {
+            id DEVELOPER_ID
+            name DEVELOPER_NAME
+            email DEVELOPER_EMAIL
+        }
+    }
+
+    scm {
+        url PROJ_WEBSITEURL
+        connection PROJ_VCSURL
+        developerConnection PROJ_ISSUETRACKERURL
+    }
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            groupId PROJ_GROUP
+            artifactId PROJ_ARTIFACTID
+
+            pom {
+                packaging 'aar'
+            }
+
+            pom.withXml {
+                def root = asNode()
+                root.appendNode('name', PROJ_NAME)
+                root.appendNode('description', PROJ_DESCRIPTION)
+                root.appendNode('url', PROJ_VCSURL)
+                root.children().last() + pomConfig
+            }
+        }
+    }
+}
