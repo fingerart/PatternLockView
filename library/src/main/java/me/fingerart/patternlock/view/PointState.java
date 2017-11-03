@@ -3,7 +3,7 @@ package me.fingerart.patternlock.view;
 /**
  * 点的状态
  */
-public enum PointState {
+enum PointState {
     /**
      * 正常
      */

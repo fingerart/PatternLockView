@@ -1,5 +1,6 @@
 package me.fingerart.patternlock.view;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
@@ -13,9 +14,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.fingerart.patternlock.R;
-import me.fingerart.patternlock.interf.PatternLockIndicatorInterf;
+import me.fingerart.patternlock.interf.IPatternLockIndicator;
 import me.fingerart.patternlock.interf.PatternLockListener;
-import me.fingerart.patternlock.utils.PatternLockUtils;
+
+import static me.fingerart.patternlock.utils.PatternLockUtils.isInRound;
+import static me.fingerart.patternlock.utils.PatternLockUtils.vibrate;
 
 /**
  * 图案解锁
@@ -45,13 +48,13 @@ public class PatternLockView extends View {
     protected Paint mInnerPaint;
     protected Paint mCircularPaint;
     private long mVibrate;
-    protected int mMinSize;
+    protected int mMinPoint;
     protected int mRaw;
     protected boolean mAutoClear;
     private boolean inTouch;
     private boolean initialized = false;
     protected PatternLockListener mLockListener;
-    protected PatternLockIndicatorInterf mIndicator;
+    protected IPatternLockIndicator mIndicator;
 
     public PatternLockView(Context context) {
         this(context, null);
@@ -70,7 +73,7 @@ public class PatternLockView extends View {
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.PatternLockView, defStyleAttr, 0);
         mRaw = typedArray.getInt(R.styleable.PatternLockView_raw, 3);
         mVibrate = (long) typedArray.getFloat(R.styleable.PatternLockView_vibrate_long, 10);
-        mMinSize = typedArray.getInt(R.styleable.PatternLockView_min_size, 3);
+        mMinPoint = typedArray.getInt(R.styleable.PatternLockView_min_point, 3);
         mAutoClear = typedArray.getBoolean(R.styleable.PatternLockView_auto_clear, false);
         mRingOuterRadius = typedArray.getDimension(R.styleable.PatternLockView_ring_outer_radius, 70);
         mRingInnerRadius = typedArray.getDimension(R.styleable.PatternLockView_ring_inner_radius, 25);
@@ -92,7 +95,7 @@ public class PatternLockView extends View {
 
     @Override
     protected void onDraw(Canvas canvas) {
-        initData();
+        initDataIfNot();
         drawPoints(canvas);
         drawLine(canvas);
     }
@@ -118,10 +121,10 @@ public class PatternLockView extends View {
             p.setState(PointState.POINT_STATE_SELECTED);
             if (isNewPoint(p)) {
                 mLinePoints.add(p);
-                PatternLockUtils.vibrate(getContext(), mVibrate);
+                vibrate(getContext(), mVibrate);
             }
         }
-        postInvalidate();
+        invalidate();
         return true;
     }
 
@@ -129,7 +132,7 @@ public class PatternLockView extends View {
      * 校验手势的合法性
      */
     private void validatePassword() {
-        if (mLinePoints.size() < mMinSize) {
+        if (mLinePoints.size() < mMinPoint) {
             handleError();
         } else {
             handleSuccess();
@@ -149,10 +152,11 @@ public class PatternLockView extends View {
         }
     }
 
+    @SuppressLint("StringFormatMatches")
     private void handleError() {
         switchState(PointState.POINT_STATE_SELECTED, PointState.POINT_STATE_SELECTED_ERROR);
         if (mLockListener != null) {
-            mLockListener.onError(getResources().getString(R.string.error_size_not_satisfied, mMinSize));
+            mLockListener.onError(getResources().getString(R.string.error_size_not_satisfied, mMinPoint));
         }
         delayedClearPatternLock();
     }
@@ -196,14 +200,14 @@ public class PatternLockView extends View {
     private Point getCurrentTouchPoint(float ex, float ey) {
         for (Point[] px : mPoints) {
             for (Point point : px) {
-                if (PatternLockUtils.isInRound(point.getX(), point.getY(), mRingOuterRadius, ex, ey))
+                if (isInRound(point.getX(), point.getY(), mRingOuterRadius, ex, ey))
                     return point;
             }
         }
         return null;
     }
 
-    private void initData() {
+    private void initDataIfNot() {
         if (initialized) return;
 
         mWidth = getWidth();
@@ -332,7 +336,7 @@ public class PatternLockView extends View {
      *
      * @param indicator
      */
-    public void setPatternLockIndicator(PatternLockIndicatorInterf indicator) {
+    public void setPatternLockIndicator(IPatternLockIndicator indicator) {
         mIndicator = indicator;
     }
 
@@ -362,9 +366,8 @@ public class PatternLockView extends View {
      *
      * @param index
      */
-    public void notifyPatternData(List index) {
-        if (mIndicator != null) {
-            mIndicator.updateIndicator(index);
-        }
+    public void setPatternPoint(List<Integer> index) {
+        mIndex = index;
+        invalidate();
     }
 }

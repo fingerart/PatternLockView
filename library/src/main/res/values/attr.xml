@@ -13,7 +13,7 @@
         <attr name="circular_error" format="color" />
         <attr name="circular_pressed" format="color" />
         <attr name="vibrate_long" format="float" />
-        <attr name="min_size" format="integer" />
+        <attr name="min_point" format="integer" />
         <attr name="auto_clear" format="boolean" />
         <attr name="raw" format="integer" />
     </declare-styleable>

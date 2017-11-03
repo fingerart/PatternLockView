@@ -26,9 +26,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initView() {
-        mTvTips = (TextView) findViewById(R.id.tv_tips);
-        mPl = (PatternLockView) findViewById(R.id.pattern_lock);
-        PatternLockIndicator mPli = (PatternLockIndicator) findViewById(R.id.pattern_lock_indicator);
+        mTvTips = findViewById(R.id.tv_tips);
+        mPl = findViewById(R.id.pattern_lock);
+        PatternLockIndicator mPli = findViewById(R.id.pattern_lock_indicator);
         mPl.setPatternLockIndicator(mPli);
         mPl.setPatternLockListener(mPatternLockListener);
     }

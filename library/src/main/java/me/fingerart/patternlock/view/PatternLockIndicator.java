@@ -6,13 +6,13 @@ import android.view.MotionEvent;
 
 import java.util.List;
 
-import me.fingerart.patternlock.interf.PatternLockIndicatorInterf;
+import me.fingerart.patternlock.interf.IPatternLockIndicator;
 
 /**
  * 手势锁指示器
  * Created by FingerArt.me on 2016/7/26.
  */
-public class PatternLockIndicator extends PatternLockView implements PatternLockIndicatorInterf {
+public class PatternLockIndicator extends PatternLockView implements IPatternLockIndicator {
     public PatternLockIndicator(Context context) {
         super(context);
     }

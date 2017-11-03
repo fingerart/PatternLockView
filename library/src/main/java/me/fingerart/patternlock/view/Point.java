@@ -4,7 +4,7 @@ package me.fingerart.patternlock.view;
  * 点
  * Created by FingerArt.me on 2016/7/25.
  */
-public class Point {
+class Point {
     /**
      * x,y坐标
      */
